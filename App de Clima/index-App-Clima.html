@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App de Clima</title>
+    <style>
+        /* Estilos opcionais */
+    </style>
+</head>
+<body>
+    <h1>App de Clima</h1>
+    <label for="locationInput">Enter Location:</label>
+    <input type="text" id="locationInput">
+    <button onclick="fetchWeather()">Get Weather</button>
+    <div id="weatherInfo"></div>
+
+    <script>
+        function fetchWeather() {
+            var location = document.getElementById("locationInput").value;
+            fetch("https://api.openweathermap.org/data/2.5/weather?q=" + location + "&appid=YOUR_API_KEY")
+            .then(response => response.json())
+            .then(data => {
+                var weatherInfo = "Weather: " + data.weather[0].description + "<br>";
+                weatherInfo += "Temperature: " + (data.main.temp - 273.15).toFixed(2) + "°C";
+                document.getElementById("weatherInfo").innerHTML = weatherInfo;
+            })
+            .catch(error => {
+                console.log("Error fetching weather data:", error);
+                document.getElementById("weatherInfo").textContent = "Error fetching weather data. Please try again later.";
+            });
+        }
+    </script>
+</body>
+</html>
